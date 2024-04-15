@@ -16,4 +16,29 @@ app.use("/auth",authRouters);
 const userRouters=require("./routes/user.route.js")
 app.use("/api/users",userRouters);
 
+const productRouter=require("./routes/product.route.js")
+app.user("/api/products",productRouter);
+
+const adminProductRouter=require("./routes/adminProduct.route.js");
+app.use("/api/admin/product",adminProductRouter);
+
+const cartRouter=require("./routes/cart.route.js")
+app.use("/api/cart",cartRouter);
+
+const cartItemsRouter=require("./routes/cartItems.route.js")
+app.use("/api/cartItems",cartItemsRouter);
+
+const orderRouter=require("./routes/order.route.js")
+app.use("/api/orders",orderRouter);
+
+const adminOrderRouter=require("./routes/adminOrder.route.js")
+app.use("/api/admin/orders",adminOrderRouter);
+
+const reviewRouter=require("./routes/review.route.js")
+app.use("/api/review",reviewRouter);
+
+const ratingRouter=require("./routes/rating.route.js")
+app.use("/api/rating",ratingRouter);
+
 module.exports=app;
+
