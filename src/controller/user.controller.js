@@ -1,4 +1,4 @@
-const userService=require("../services/user.services")
+const userService=require("../services/user.services.js")
 //Bearer token
 const getUserProfile=async(req,res)=>{
     try {

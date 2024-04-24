@@ -1,8 +1,8 @@
 const cartItemService=require("../services/cartItem.services.js");
 
 
-const updateCartItem=async(res,res)=>{
-    const user=req.user;
+const updateCartItem=async(req,res)=>{
+    const user=await req.user;
     try {
         const updatedCartItem=await cartItemService.updateCartItem(user._id,req.params.id,req.body);
         return res.status(200).send(updatedCartItem);
@@ -11,8 +11,8 @@ const updateCartItem=async(res,res)=>{
     }
 }
 
-const removeCartItem=async(res,res)=>{
-    const user=req.user;
+const removeCartItem=async(req,res)=>{
+    const user=await req.user;
     try {
         await cartItemService.removeCartItem(user._id,req.params.id);
         return res.status(200).send({message:"cart item removed successfully"});

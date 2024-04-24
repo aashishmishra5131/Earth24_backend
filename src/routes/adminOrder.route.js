@@ -2,7 +2,7 @@ const express=require("express")
 const router=express.Router();
 
 const orderController=require("../controller/adminOrder.controller.js");
-const authenticate=require("../middlewear/authenticate.js");
+const {authenticate}=require("../middlewear/authenticate.js");
 
 
 router.get("/",authenticate,orderController.getAllOrders);

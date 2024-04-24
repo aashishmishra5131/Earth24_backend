@@ -7,4 +7,4 @@ const { authenticate } = require("../middlewear/authenticate.js");
 router.put("/:id",authenticate,cartItemsController.updateCartItem);
 router.delete("/:id",authenticate,cartItemsController.removeCartItem);
 
-module.exports=cartItemsController;
+module.exports=router;

@@ -1,16 +1,19 @@
 const userServices = require("../services/user.services.js");
-const cartItem=require("../models/cartItem.model.js")
+const CartItem=require("../models/cartItem.model.js")
 
 async function updateCartItem(userId, cartItemId, cartItemsData) {
   try {
-    const item = await findcartItemById(cartItemId);
+    const item = await findCartItemById(cartItemId);
+    
+    console.log(item,"items hai ye");
     if (!item) {
       throw new Error("cart items not found: ", cartItemId);
     }
-    const user = await userServices.findUserById(item.userId);
+    const user = await userServices.findUserById(userId);
     if (!user) {
       throw new Error("User not found : ", userId);
     }
+    console.log(item.discountedPrice,"bata ab tu")
     if (user._id.toString() === userId.toString()) {
       item.quantity = cartItemsData.quantity;
       item.price = item.quantity * item.product.price;
@@ -26,17 +29,18 @@ async function updateCartItem(userId, cartItemId, cartItemsData) {
 }
 
 async function removeCartItem(userId, cartItemId) {
-  const cartItem = await findcartItemById(cartItemId);
+  const cartItem = await findCartItemById(cartItemId);
   const user = await userServices.findUserById(userId);
 
   if (user._id.toString() === cartItem.userId.toString()) {
-    await cartItem.findUserByIdAndDelete(cartItemId);
+   return await CartItem.findByIdAndDelete(cartItemId);
   }
   throw new Error("You can't remove another user's item");
 }
 
-async function findcartItemById(cartItemId) {
-  const cartItem = await findcartItemById(cartItemId);
+async function findCartItemById(cartItemId) {
+  console.log("cartItem hai yei",cartItemId);
+  const cartItem = await CartItem.findById(cartItemId).populate("product");
   if (cartItem) {
     return cartItem;
   } else {
@@ -44,4 +48,4 @@ async function findcartItemById(cartItemId) {
   }
 }
 
-module.exports = { updateCartItem, removeCartItem, findcartItemById };
+module.exports = { updateCartItem, removeCartItem, findCartItemById };
