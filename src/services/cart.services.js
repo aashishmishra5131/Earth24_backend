@@ -21,15 +21,19 @@ async function findUserCart(userId){
         let totalDiscountedPrice=0;
         let totalItem=0; 
 
-        for(let cartItem of cart.cartItems){
-            totalPrice+=cartItem.price;
-            totalDiscountedPrice+=cartItems.discountedPrice;
-            totalItem+=cartItem.quantity;
+        for (let cartItem of cart.cartItems) {
+            const productPrice = cartItem.product.price;
+            const discountedPrice = cartItem.product.discountedPrice !== undefined ? cartItem.product.discountedPrice : productPrice; // Check if discountedPrice exists, else fallback to original price
+            const quantity = cartItem.quantity;
+
+            totalPrice += productPrice * quantity;
+            totalDiscountedPrice += discountedPrice * quantity;
+            totalItem += quantity;
         }
-        
         cart.totalPrice=totalPrice;
         cart.totalItem=totalItem;
-        cart.discount=totalPrice=totalDiscountedPrice;
+        cart.discount=totalPrice-totalDiscountedPrice;
+        cart.totalDiscountedPrice=totalDiscountedPrice;
         return cart;
 
     } catch (error) {
@@ -40,7 +44,7 @@ async function findUserCart(userId){
 async function addCartItem(userId,req){
     try {
         const cart=await Cart.findOne({user:userId});
-        const product=await Product.findById(req.productId);
+        const product=await Product.findById(req.product);
         const isPresent=await CartItem.findOne({cart:cart._id,product:product._id,userId})
 
         if(!isPresent){

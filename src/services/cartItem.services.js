@@ -5,7 +5,6 @@ async function updateCartItem(userId, cartItemId, cartItemsData) {
   try {
     const item = await findCartItemById(cartItemId);
     
-    console.log(item,"items hai ye");
     if (!item) {
       throw new Error("cart items not found: ", cartItemId);
     }

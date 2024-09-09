@@ -116,16 +116,27 @@ async function getAllProducts(reqQuery) {
   }
 
   if (size) {
-    const sizeSet = new Set(size.split(",").map((s) => s.trim().toLowerCase()));
-    query = query.where("size").in([...sizeSet]);
+    console.log("size", size);
+    const sizeSet = new Set(size.split(",").map((s) => s.trim()));
+    console.log("sizeset", sizeSet);
+    query = query.where("size.name").in([...sizeSet]);
   }
 
   if (minPrice && maxPrice) {
+    minPrice = Number(minPrice);
+    maxPrice = Number(maxPrice);
+    console.log(minPrice,"data")
     query = query.where("discountedPrice").gte(minPrice).lte(maxPrice);
+    console.log(query, "mindiscount price");
   }
 
   if (minDiscount) {
-    query = query.where("discountedPercent").gt(minDiscount);
+    const [min, max] = minDiscount.split("-").map((s) => parseFloat(s.trim()));
+    if (!isNaN(min) && !isNaN(max)) {
+      query = query.where("discountPercent").gte(min).lte(max);
+    } else if (!isNaN(min)) {
+      query = query.where("discountPercent").gte(min);
+    }
   }
 
   if (stock) {
@@ -147,7 +158,6 @@ async function getAllProducts(reqQuery) {
 
   const products = await query.exec();
   const totalPages = Math.ceil(totalProducts / pageSize);
-
   return {
     content: products,
     currentPage: pageNumber,
