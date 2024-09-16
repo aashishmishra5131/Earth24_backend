@@ -1,5 +1,4 @@
 const mongoose=require("mongoose");
-const {Schema}=mongoose;
 
 const addressSchema=mongoose.Schema(
    {
@@ -28,7 +27,7 @@ const addressSchema=mongoose.Schema(
     ref:"User",
    },
    mobile:{
-    type:String,
+    type:Number,
     required:true,
    }
 })

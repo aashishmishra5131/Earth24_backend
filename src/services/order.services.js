@@ -10,7 +10,9 @@ async function createOrder(user,shippAddress){
     if(shippAddress._id){
         let existAddress=await Address.findById(shippAddress._id);
         address=existAddress;
-
+         if (!address) {
+            throw new Error('Address not found');
+        }
     }
     else{
         address=new Address(shippAddress);
@@ -40,7 +42,7 @@ async function createOrder(user,shippAddress){
         totalDiscountedPrice:cart.totalDiscountedPrice,
         discounte:cart.discount,
         totalItem:cart.totalItem,
-        shippAddress:address,
+        shippingAddress:address,
     })
     const savedOrder=await createOrder.save();
     return savedOrder;

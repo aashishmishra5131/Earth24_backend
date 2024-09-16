@@ -4,7 +4,6 @@ const CartItem=require("../models/cartItem.model.js")
 async function updateCartItem(userId, cartItemId, cartItemsData) {
   try {
     const item = await findCartItemById(cartItemId);
-    
     if (!item) {
       throw new Error("cart items not found: ", cartItemId);
     }
@@ -12,7 +11,7 @@ async function updateCartItem(userId, cartItemId, cartItemsData) {
     if (!user) {
       throw new Error("User not found : ", userId);
     }
-    console.log(item.discountedPrice,"bata ab tu")
+   
     if (user._id.toString() === userId.toString()) {
       item.quantity = cartItemsData.quantity;
       item.price = item.quantity * item.product.price;
@@ -28,6 +27,7 @@ async function updateCartItem(userId, cartItemId, cartItemsData) {
 }
 
 async function removeCartItem(userId, cartItemId) {
+  console.log(cartItemId,userId,"cartItemId")
   const cartItem = await findCartItemById(cartItemId);
   const user = await userServices.findUserById(userId);
 

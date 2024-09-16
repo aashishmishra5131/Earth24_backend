@@ -2,7 +2,7 @@ const orderService=require("../services/order.services.js")
 
 const getAllOrders=async(req,res)=>{
     try {
-        const orders=await orderService.getAllOrders();
+        const orders=await orderService.getAllorders();
         return res.status(200).send(orders);
     } catch (error) {
         return res.status(500).send({error:error.message});
